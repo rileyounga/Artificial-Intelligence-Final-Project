@@ -79,7 +79,10 @@ def main():
     plt.savefig("heatmap.png")
 
     # average across the rows to get the win rate of each agent
-    win_rates = np.mean(heatmap, axis=1)
+    # exclude the diagonal from the average since its zero
+    heatmap_copy = np.copy(heatmap)
+    np.fill_diagonal(heatmap_copy, np.nan)
+    win_rates = np.nanmean(heatmap_copy, axis=1)
     for i in range(len(agent_names)):
         print(f"{agent_names[i]} win rate: {win_rates[i]}")
 
